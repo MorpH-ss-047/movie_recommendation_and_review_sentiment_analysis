@@ -90,7 +90,9 @@ def run():
         accuracy = accuracy_score(targets, outputs)
         print(f"Epoch {epoch}, accuracy: {accuracy}")
         if accuracy > best_accuracy:
-            torch.save(model.state_dict(), config.MODEL_PATH+f"bert_model_{epoch}.bin")
+            torch.save(
+                model.state_dict(), config.MODEL_PATH + f"bert_model_{epoch}.bin"
+            )
             best_accuracy = accuracy
 
 

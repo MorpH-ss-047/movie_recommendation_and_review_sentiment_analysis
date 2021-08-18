@@ -47,6 +47,6 @@ def predict():
 
 if __name__ == "__main__":
     MODEL = BERTBaseUncased().to(DEVICE)
-    MODEL.load_state_dict(torch.load(config.MODEL_PATH))
+    MODEL.load_state_dict(torch.load(config.MODEL_PATH + "/model.bin"))
     MODEL.eval()
     app.run(debug=True)

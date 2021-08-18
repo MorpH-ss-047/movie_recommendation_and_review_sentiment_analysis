@@ -29,13 +29,6 @@ class BERTDataset:
         mask = inputs["attention_mask"]
         token_type_ids = inputs["token_type_ids"]
 
-        # padding_length = self.max_len - len(input_ids)
-        # input_ids = input_ids + ([0] * padding_length)
-        # mask = mask + ([0] * padding_length)
-        # token_type_ids = token_type_ids + ([0] * padding_length)
-
-
-
         return {
             "input_ids": torch.tensor(input_ids, dtype=torch.long),
             "attention_mask": torch.tensor(mask, dtype=torch.long),
