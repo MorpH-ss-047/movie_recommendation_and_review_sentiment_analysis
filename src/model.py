@@ -10,8 +10,8 @@ class BERTBaseUncased(nn.Module):
         self.bert_drop = nn.Dropout(config.DROPOUT)
         self.out = nn.Linear(config.BERT_DIM, config.NUM_CLASSES)
 
-    def forward(self, ids, mask, token_type_ids):
-        _, pooled_output = self.bert(ids, attention_mask=mask, token_type_ids=token_type_ids,)
+    def forward(self, input_ids, attention_mask, token_type_ids):
+        _, pooled_output = self.bert(input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids,)
         drop_output = self.bert_drop(pooled_output)
         output = self.out(drop_output)
         return output

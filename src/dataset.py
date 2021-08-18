@@ -22,20 +22,23 @@ class BERTDataset:
             add_special_tokens=True,
             max_length=self.max_len,
             truncation=True,
+            padding="max_length",
         )
 
-        ids = inputs["input_ids"]
+        input_ids = inputs["input_ids"]
         mask = inputs["attention_mask"]
         token_type_ids = inputs["token_type_ids"]
 
-        padding_length = self.max_len - len(ids)
-        ids = ids + ([0] * padding_length)
-        mask = mask + ([0] * padding_length)
-        token_type_ids = token_type_ids + ([0] * padding_length)
+        # padding_length = self.max_len - len(input_ids)
+        # input_ids = input_ids + ([0] * padding_length)
+        # mask = mask + ([0] * padding_length)
+        # token_type_ids = token_type_ids + ([0] * padding_length)
+
+
 
         return {
-            "ids": torch.tensor(ids, dtype=torch.long),
-            "mask": torch.tensor(mask, dtype=torch.long),
+            "input_ids": torch.tensor(input_ids, dtype=torch.long),
+            "attention_mask": torch.tensor(mask, dtype=torch.long),
             "token_type_ids": torch.tensor(token_type_ids, dtype=torch.long),
             "targets": torch.tensor(self.target[item], dtype=torch.float),
         }
