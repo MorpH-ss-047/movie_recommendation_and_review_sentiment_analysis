@@ -3,7 +3,7 @@ import config
 import torch
 from flask import Flask, request
 from model import BERTBaseUncased
-import scrape_reviews
+from scraper import scrape_reviews
 
 app = Flask(__name__)
 
