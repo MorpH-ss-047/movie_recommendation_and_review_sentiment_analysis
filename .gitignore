@@ -1,7 +1,7 @@
 
-data/*.csv
-models/*.bin
-src/notebooks/imdb_scraper.ipynb
+*.csv
+*.bin
+*.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
