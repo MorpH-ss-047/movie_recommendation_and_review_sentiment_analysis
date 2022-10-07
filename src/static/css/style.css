@@ -1,0 +1,32 @@
+/* body{
+    background-color: black;
+} */
+
+.search-container{
+    /* background-color: white; */
+    /* display: block; */
+    margin-top: 10%;
+    text-align: center;
+
+}
+#movie-search-box {
+    background-color: pink;
+    border-radius: 7px;
+    width: 80%;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+
+#movie-search-button {
+    background-color: pink;
+    border-radius: 4px;
+    padding: 5px;
+    display: block;
+    margin: 10px auto;    
+}
+/* shadow effect on hover */
+#movie-search-button:hover{
+    background-color: #f5f5f5;
+    box-shadow: 0 0 10px 0 #f5f5f5;
+}

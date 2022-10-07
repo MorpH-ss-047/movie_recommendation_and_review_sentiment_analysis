@@ -12,6 +12,7 @@ BERT_DIM = 768
 NUM_CLASSES = 1
 EPOCHS = 10
 ACCUMULATION_STEPS = 2
-BERT_PATH = "C:/bert_base_uncased/"
+# BERT_PATH = "C:/bert_base_uncased/"
+BERT_PATH = "bert-base-uncased"
 MODEL_PATH = "../models/"
 TOKENIZER = BertTokenizer.from_pretrained(BERT_PATH, do_lower_case=True)
