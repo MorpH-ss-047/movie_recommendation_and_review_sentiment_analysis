@@ -1,16 +1,16 @@
 import flask
-import config
+from sentiment_analysis import config
 import torch
 from flask import Flask, request, render_template, redirect, url_for
-from model import BERTBaseUncased
+from sentiment_analysis.model import BERTBaseUncased
 from scraper.review_scraper import MovieNotFound, ReviewScraper
 
 app = Flask(__name__)
 
-MODEL = None
 DEVICE = config.DEVICE
 TOKENIZER = config.TOKENIZER
 MAX_LEN = config.MAX_LEN
+MODEL = BERTBaseUncased().to(DEVICE)
 
 
 def get_sentiment(review):
@@ -33,11 +33,8 @@ def get_sentiment(review):
 
 
 def get_sentiment_of_reviews(movie_name: str):
-    try:
-        scraper = ReviewScraper(movie_name=movie_name, review_count=100)
-    except MovieNotFound:
-        redirect(url_for("home_page"))
-    
+
+    scraper = ReviewScraper(movie_name=movie_name, review_count=100)
     review_list = scraper.get_reviews()
     pos_list = []
     neg_list = []
@@ -51,6 +48,7 @@ def get_sentiment_of_reviews(movie_name: str):
     positive_score = sum(pos_list) / len(pos_list)
     negative_score = sum(neg_list) / len(neg_list)
 
+         
     return positive_score, negative_score
 
 
@@ -65,14 +63,19 @@ def home_page():
 def predict():
     movie_name = request.form.get("movie")
     # movie_name = movie_name['movie']    
-    positive_score, negative_score = get_sentiment_of_reviews(movie_name)
-    response = {
-        "Verdict": "Positive" if positive_score > negative_score else "Negative",
-        "movie_name": str(movie_name),
-        "negative": str(negative_score),
-        "positive": str(positive_score),
-    }
-    return render_template("predict.html", response=response)
+    if movie_name is not None:
+        try:
+            positive_score, negative_score = get_sentiment_of_reviews(movie_name)
+        except MovieNotFound:
+            return redirect(url_for("home_page"))
+        response = {
+            "Verdict": "Positive" if positive_score > negative_score else "Negative",
+            "movie_name": str(movie_name),
+            "negative": str(negative_score),
+            "positive": str(positive_score),
+        }
+        return render_template("predict.html", response=response)
+    return redirect(url_for("home_page"))
 
 
 # api response(JSON) of the sentiment of reviews of the given movie 
@@ -105,7 +108,6 @@ def predict_sentence():
 
 
 if __name__ == "__main__":
-    MODEL = BERTBaseUncased().to(DEVICE)
     MODEL.load_state_dict(torch.load(config.MODEL_PATH + "bert_model_2.bin"))
     MODEL.eval()
     app.run(debug=True)
